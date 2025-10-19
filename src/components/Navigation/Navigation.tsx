@@ -44,7 +44,13 @@ const BrandImage = styled.img`
   width: 40px;
   border-radius: 50%;
   object-fit: cover;
-  background: #FBEFFA;
+  background: transparent;
+  object-position: center;
+  padding: 0;
+  margin: 0;
+  display: block;
+  box-shadow: 0 0 0 2px #FBEFFA;
+  overflow: hidden;
 `;
 
 const BrandText = styled.span`
