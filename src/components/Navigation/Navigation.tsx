@@ -90,6 +90,13 @@ const DropdownMenu = styled.div`
   z-index: 100;
 `;
 
+const Separator = styled.div<{ isMobile?: boolean }>`
+  height: 1px;
+  background: ${({ isMobile }) => isMobile ? 'rgba(255, 255, 255, 0.2)' : 'rgba(120, 106, 127, 0.2)'};
+  margin: ${({ isMobile }) => isMobile ? '1rem 0' : '0.5rem'};
+  width: ${({ isMobile }) => isMobile ? '100%' : 'auto'};
+`;
+
 const DropdownItem = styled.button<{ as?: string }>`
   width: 100%;
   text-align: left;
@@ -102,13 +109,20 @@ const DropdownItem = styled.button<{ as?: string }>`
   cursor: pointer;
   border-radius: 4px;
   transition: all 0.2s ease;
+  display: block;
+  text-decoration: none;
 
   &:hover {
     background: rgba(120, 106, 127, 0.1);
   }
 `;
 
-const NavLink = styled.button<{ isActive?: boolean }>`
+interface NavLinkProps {
+  isActive?: boolean;
+  $delay?: number;
+}
+
+const NavLink = styled.button`
   color: #786A7F;
   background: none;
   border: none;
@@ -120,12 +134,13 @@ const NavLink = styled.button<{ isActive?: boolean }>`
   padding: 0.75rem 1rem;
   transition: all 0.3s ease;
   cursor: pointer;
-  opacity: ${({ isActive }) => (isActive ? '1' : '0.9')};
+  opacity: 0.9;
   text-align: left;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   border-radius: 4px;
+  text-decoration: none;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     color: ${({ theme }) => theme.colors.textLight};
@@ -136,6 +151,22 @@ const NavLink = styled.button<{ isActive?: boolean }>`
   &:hover {
     opacity: 1;
     background: rgba(120, 106, 127, 0.1);
+  }
+`;
+
+const MobileNavLink = styled(NavLink) <{ $isActive: boolean; $delay: number }>`
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: ${({ $isActive }) => $isActive ? 'slideIn 0.3s forwards' : 'none'};
+    animation-delay: ${({ $delay }) => $delay * 0.1}s;
+  }
+
+  @keyframes slideIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 `;
 
@@ -184,20 +215,70 @@ const Hamburger = styled.button<{ isActive: boolean }>`
   }
 `;
 
-const MobileMenu = styled.div<{ isActive: boolean }>`
-  display: ${({ isActive }) => (isActive ? 'flex' : 'none')};
+const MobileMenuOverlay = styled.div<{ isActive: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: ${({ isActive }) => (isActive ? 1 : 0)};
+  visibility: ${({ isActive }) => (isActive ? 'visible' : 'hidden')};
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 14;
+  backdrop-filter: blur(3px);
+`;
+
+const MobileMenu = styled.div<{ isActive: boolean }>`
+  position: fixed;
+  top: 0;
+  right: ${({ isActive }) => (isActive ? '0' : '-100%')};
+  width: 100%;
+  height: 100vh;
   background: ${({ theme }) => theme.colors.primary};
   padding: 5rem 2rem 2rem;
   z-index: 15;
+  display: flex;
   flex-direction: column;
   gap: 2rem;
   align-items: center;
   color: ${({ theme }) => theme.colors.textLight};
+  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+`;
+
+const CloseButton = styled.button<{ $isActive?: boolean }>`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+  z-index: 20;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: ${({ $isActive }) => $isActive ? 'slideIn 0.3s forwards' : 'none'};
+  }
+
+  @keyframes slideIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 `;
 
 interface NavigationProps {
@@ -244,19 +325,14 @@ export const Navigation: React.FC<NavigationProps> = ({ setActiveModal }) => {
             <DropdownItem onClick={() => setActiveModal('food')}>Food</DropdownItem>
             <DropdownItem onClick={() => setActiveModal('beverage')}>Beverage</DropdownItem>
             <DropdownItem onClick={() => setActiveModal('seasonal')}>Seasonal</DropdownItem>
-            <DropdownItem onClick={() => setActiveModal('about')}>About Us</DropdownItem>
+            <Separator />
+            <DropdownItem as="a" href="#/about">About Us</DropdownItem>
             <DropdownItem
               as="a"
               href="https://www.instagram.com/trespetitellc"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-              </svg>
               Follow Us
             </DropdownItem>
           </DropdownMenu>
@@ -273,24 +349,30 @@ export const Navigation: React.FC<NavigationProps> = ({ setActiveModal }) => {
           <span />
           <span />
         </Hamburger>
+        <MobileMenuOverlay isActive={isMobileMenuOpen} onClick={closeMenu} />
         <MobileMenu isActive={isMobileMenuOpen}>
-          <NavLink onClick={() => { closeMenu(); setActiveModal('food'); }}>Food</NavLink>
-          <NavLink onClick={() => { closeMenu(); setActiveModal('beverage'); }}>Beverage</NavLink>
-          <NavLink onClick={() => { closeMenu(); setActiveModal('seasonal'); }}>Seasonal</NavLink>
-          <NavLink onClick={() => { closeMenu(); setActiveModal('about'); }}>About Us</NavLink>
-          <NavLink
+          <CloseButton onClick={closeMenu} aria-label="Close menu" $isActive={isMobileMenuOpen}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </CloseButton>
+          <MobileNavLink onClick={() => { closeMenu(); setActiveModal('food'); }} $delay={0} $isActive={isMobileMenuOpen}>Food</MobileNavLink>
+          <MobileNavLink onClick={() => { closeMenu(); setActiveModal('beverage'); }} $delay={1} $isActive={isMobileMenuOpen}>Beverage</MobileNavLink>
+          <MobileNavLink onClick={() => { closeMenu(); setActiveModal('seasonal'); }} $delay={2} $isActive={isMobileMenuOpen}>Seasonal</MobileNavLink>
+          <Separator isMobile />
+          <MobileNavLink as="a" href="#/about" onClick={closeMenu} $delay={3} $isActive={isMobileMenuOpen}>About Us</MobileNavLink>
+          <MobileNavLink
             as="a"
             href="https://www.instagram.com/trespetitellc"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={closeMenu}
+            $delay={4}
+            $isActive={isMobileMenuOpen}
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-            </svg>
             Follow Us
-          </NavLink>
+          </MobileNavLink>
         </MobileMenu>
       </MobileNav>
     </NavContainer>

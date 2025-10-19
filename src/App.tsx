@@ -1,82 +1,131 @@
 import React, { useState, useEffect } from 'react';
-import styled, { ThemeProvider, DefaultTheme } from 'styled-components';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import styled, { ThemeProvider } from 'styled-components';
 import { Navigation } from './components/Navigation/Navigation';
 import { Modal } from './components/Modal/Modal';
 import { PackageCard } from './components/PackageCard/PackageCard';
 import { GlobalStyles } from './styles/GlobalStyles';
 import { theme } from './styles/theme';
 import { Package } from './types';
+import { AboutUs } from './pages/AboutUs';
+import { Home } from './pages/Home';
+import { PackageGrid } from './styles/shared';
 
-const MainContainer = styled.div<{ theme: DefaultTheme }>`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 6rem 20% 2rem;
-  min-height: 100vh;
-  position: relative;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    padding: 6rem 1rem 2rem;
+const beveragePackages: Package[] = [
+  {
+    title: '"Graze-tini" Package - Basic',
+    subtitle: 'Perfect for intimate gatherings or budget-friendly events.',
+    features: [
+      '1 Signature Custom Cocktail or Mocktail',
+      'Simple cart setup',
+      'Up to 2 hours of service'
+    ],
+    note: '*alcohol must be provided by the client'
+  },
+  {
+    title: '"Perfect Pairing" Package - Standard',
+    subtitle: 'Great for birthdays, baby showers, and holiday parties',
+    features: [
+      '2 Signature Custom Cocktail or Mocktail',
+      'Simple cart setup',
+      'Up to 2 hours of service'
+    ],
+    note: '*alcohol must be provided by the client'
+  },
+  {
+    title: '"Boba Bliss" Package - Fan Favorite',
+    subtitle: 'Perfect for any event!',
+    features: [
+      'Choice of 2 Boba flavor drinks',
+      'Personalized signage (logo or event name)',
+      'Simple cart setup',
+      'Up to 2 hours of service'
+    ]
   }
-`;
+];
 
-const HeroImage = styled.div`
-  width: 600px;
-  max-width: 100%;
-  margin-bottom: 2rem;
-  border-radius: 12px;
-  overflow: hidden;
-
-  img {
-    width: 100%;
-    height: auto;
-    display: block;
+const seasonalPackages: Package[] = [
+  {
+    title: '"Cozy Cart" Package - Basic',
+    subtitle: 'Perfect for intimate gatherings or budget-friendly events.',
+    features: [
+      'Classic hot chocolate (1 flavor)',
+      'Basic topping (mini marshmallows, whipped cream)',
+      'Simple cart setup',
+      'Up to 2 hours of service'
+    ]
+  },
+  {
+    title: '"Sweet Sips" Package - Standard',
+    subtitle: 'Great for birthdays, baby showers, and holiday parties',
+    features: [
+      '2 flavor options (Classic + Peppermint or Salted Caramel)',
+      'Additional toppings (candy canes, chocolate chips, caramel drizzle)',
+      'Themed decor (seasonal or event-inspired)',
+      'Customized menu board'
+    ]
+  },
+  {
+    title: '"ChocoLuxe" Package - Premium',
+    subtitle: 'Perfect for weddings, large parties, or corporate events',
+    features: [
+      'Up to 3 hot chocolate flavors (Classic, White Chocolate, Peppermint, Salted Caramel)',
+      'Gourmet toppings bar: crushed cookies, sprinkles, chocolate shavings',
+      'Upgraded decor',
+      'Personalized signage (logo or event name)',
+      'Event time up to 4 hours',
+      '2 attendants'
+    ]
   }
-`;
+];
 
-const MissionStatement = styled.div`
-  text-align: center;
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-
-  h1 {
-    font-family: ${({ theme }) => theme.fonts.secondary};
-    font-size: 1.8rem;
-    color: #786A7F;
-    margin-bottom: 1rem;
+const foodPackages: Package[] = [
+  {
+    title: '"Mini Graze" Package - Basic',
+    subtitle: 'Perfect for intimate celebrations, small parties, or showers.',
+    features: [
+      'Classic charcuterie cart setup',
+      '2 cheese varieties',
+      '2 cured meats',
+      'Gourmet crackers',
+      'Fresh & dried fruits',
+      'Assorted olives and nuts',
+      'Honey & Jam',
+      'Up to 2 hours of service'
+    ]
+  },
+  {
+    title: '"Graze & Gather" Package - Standard',
+    subtitle: 'Ideal for birthdays, engagements, or medium-sized gatherings.',
+    features: [
+      '4 cheese varieties',
+      '3 meat selections',
+      'Fresh and dried fruits',
+      'Gourmet bread & crackers selections',
+      'Assorted Olives and nuts',
+      'Chocolate',
+      'Honey & Jams',
+      'Decorative greenery & custom signage',
+      'Up to 2 hours of service'
+    ]
+  },
+  {
+    title: '"Luxe Graze" Package - Premium',
+    subtitle: 'Perfect for weddings, corporate events, and upscale parties.',
+    features: [
+      '5 premium cheeses',
+      '4 meat selections',
+      'Gourmet crackers and breads',
+      'Fresh and dried fruit',
+      'Assorted olives and nuts',
+      'Specialty accompaniments: honeycomb, fig jam, tapenade, spreads',
+      'Personalized signage (event name or logo)',
+      'Upgrade decor (base on event theme/color)',
+      'Up to 4 hours of service'
+    ]
   }
+];
 
-  p {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #786A7F;
-    opacity: 0.9;
-  }
-`;
-
-const PackageGrid = styled.div`
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  gap: 1.5rem;
-  margin: 2rem -1rem;
-  padding: 0 1rem;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  scroll-padding: 0 1rem;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    gap: 1rem;
-    margin: 1.5rem -1.5rem;
-    padding: 0 1.5rem;
-  }
-`;
 
 const Splash = styled.div`
   position: fixed;
@@ -108,27 +157,10 @@ const SplashLogo = styled.div`
   }
 `;
 
-const foodPackages: Package[] = [
-  {
-    title: '"Mini Graze" Package - Basic',
-    subtitle: 'Perfect for intimate celebrations, small parties, or showers.',
-    features: [
-      'Classic charcuterie cart setup',
-      '2 cheese varieties',
-      '2 cured meats',
-      'Gourmet crackers',
-      'Fresh & dried fruits',
-      'Assorted olives and nuts',
-      'Honey & Jam',
-      'Up to 2 hours of service'
-    ]
-  },
-  // Add other packages...
-];
 
 function App() {
-  const [activeModal, setActiveModal] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [activeModal, setActiveModal] = useState<string | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -139,46 +171,63 @@ function App() {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      {!isLoaded && (
-        <Splash>
-          <SplashLogo>
-            <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="Très Petite LLC" />
-          </SplashLogo>
-        </Splash>
-      )}
-      <Navigation setActiveModal={setActiveModal} />
-      <MainContainer>
-        <HeroImage>
-          <img src={`${process.env.PUBLIC_URL}/mobile-charcuterie-cart-1.png`} alt="Très Petite LLC Experience" />
-        </HeroImage>
-        <MissionStatement>
-          <h1>Our Mission</h1>
-          <p>
-            At Très Petite LLC, we are dedicated to providing exceptional food and
-            beverage service that delights our customers. Our mission is to create
-            memorable experiences through quality ingredients and outstanding
-            hospitality.
-          </p>
-        </MissionStatement>
-      </MainContainer>
+    <Router>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        {!isLoaded && (
+          <Splash>
+            <SplashLogo>
+              <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="Très Petite LLC" />
+            </SplashLogo>
+          </Splash>
+        )}
+        <Navigation setActiveModal={setActiveModal} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<AboutUs />} />
+        </Routes>
 
-      {/* Modals */}
-      <Modal
-        id="food"
-        title="Food"
-        isOpen={activeModal === 'food'}
-        onClose={() => setActiveModal(null)}
-      >
-        <PackageGrid>
-          {foodPackages.map((pkg, index) => (
-            <PackageCard key={index} package={pkg} />
-          ))}
-        </PackageGrid>
-      </Modal>
-      {/* Add other modals */}
-    </ThemeProvider>
+        {/* Modals */}
+        <Modal
+          id="food"
+          title="Food"
+          isOpen={activeModal === 'food'}
+          onClose={() => setActiveModal(null)}
+        >
+          <PackageGrid>
+            {foodPackages.map((pkg, index) => (
+              <PackageCard key={index} package={pkg} />
+            ))}
+          </PackageGrid>
+        </Modal>
+
+        <Modal
+          id="beverage"
+          title="Beverage"
+          isOpen={activeModal === 'beverage'}
+          onClose={() => setActiveModal(null)}
+        >
+          <PackageGrid>
+            {beveragePackages.map((pkg, index) => (
+              <PackageCard key={index} package={pkg} />
+            ))}
+          </PackageGrid>
+        </Modal>
+
+        <Modal
+          id="seasonal"
+          title="Seasonal"
+          isOpen={activeModal === 'seasonal'}
+          onClose={() => setActiveModal(null)}
+        >
+          <PackageGrid>
+            {seasonalPackages.map((pkg, index) => (
+              <PackageCard key={index} package={pkg} />
+            ))}
+          </PackageGrid>
+        </Modal>
+      </ThemeProvider>
+    </Router>
   );
 }
 
