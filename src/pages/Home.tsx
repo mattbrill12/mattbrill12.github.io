@@ -54,8 +54,8 @@ const MissionStatement = styled.div`
     font-size: 1.2rem;
     line-height: 1.8;
     color: white;
-    opacity: 0.95;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    opacity: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     margin-bottom: 2rem;
   }
 
