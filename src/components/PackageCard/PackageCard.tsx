@@ -9,18 +9,13 @@ const Card = styled.div<{ theme: DefaultTheme }>`
   box-shadow: 0 10px 30px rgba(120, 106, 127, 0.15);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid rgba(120, 106, 127, 0.1);
-  flex: 0 0 90%;
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
+  width: 100%;
+  max-width: 100%;
 
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 40px rgba(120, 106, 127, 0.25);
     border-color: rgba(120, 106, 127, 0.2);
-  }
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    flex: 0 0 45%;
   }
 `;
 

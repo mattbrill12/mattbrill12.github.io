@@ -143,12 +143,22 @@ const Splash = styled.div`
 `;
 
 const SplashLogo = styled.div`
-  width: 300px;
-  height: 300px;
+  width: 700px;
+  height: 700px;
   display: flex;
   justify-content: center;
   align-items: center;
   animation: scaleIn 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+  @media (max-width: 768px) {
+    width: 450px;
+    height: 450px;
+  }
+
+  @media (max-width: 480px) {
+    width: 350px;
+    height: 350px;
+  }
 
   img {
     width: 100%;

@@ -8,7 +8,7 @@ const ModalOverlay = styled.div<{ isOpen: boolean; theme: DefaultTheme }>`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(192, 170, 216, 0.95);
+  background: rgba(192, 170, 216, 0.85);
   visibility: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')};
   display: flex;
   justify-content: center;
@@ -17,16 +17,16 @@ const ModalOverlay = styled.div<{ isOpen: boolean; theme: DefaultTheme }>`
   transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(5px);
   z-index: 100;
-  padding: 2rem;
+  padding: 1rem;
 `;
 
 const ModalContent = styled.div<{ isOpen: boolean }>`
   background: white;
   padding: 2rem 1rem;
   border-radius: 15px;
-  max-width: 95%;
-  width: 1000px;
-  max-height: 90vh;
+  max-width: 98%;
+  width: 1400px;
+  max-height: 95vh;
   overflow-y: auto;
   position: relative;
   transform: translateY(${({ isOpen }) => (isOpen ? '0' : '30px')});
@@ -38,6 +38,17 @@ const ModalContent = styled.div<{ isOpen: boolean }>`
 
   @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding: 2.5rem 2rem;
+  }
+
+  @media (max-width: 1200px) {
+    width: 95%;
+    max-width: 1200px;
+  }
+
+  @media (max-width: 768px) {
+    width: 98%;
+    max-width: 100%;
+    padding: 1.5rem 1rem;
   }
 `;
 

@@ -1,23 +1,21 @@
 import styled from 'styled-components';
 
 export const PackageGrid = styled.div`
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 1.5rem;
-  margin: 2rem -1rem;
-  padding: 0 1rem;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  scroll-padding: 0 1rem;
+  margin: 2rem 0;
+  padding: 0;
+  max-width: 100%;
+  overflow: visible;
 
-  &::-webkit-scrollbar {
-    display: none;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
   }
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    gap: 1rem;
-    margin: 1.5rem -1.5rem;
-    padding: 0 1.5rem;
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
   }
 `;

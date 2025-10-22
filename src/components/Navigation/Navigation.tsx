@@ -6,7 +6,7 @@ const NavContainer = styled.nav<{ theme: DefaultTheme }>`
   top: 0;
   left: 0;
   width: 100%;
-  padding: 1rem 2rem;
+  padding: 1.5rem 2rem;
   z-index: 50;
   display: flex;
   justify-content: space-between;
@@ -15,7 +15,7 @@ const NavContainer = styled.nav<{ theme: DefaultTheme }>`
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    padding: 0.75rem 1rem;
+    padding: 1rem 1rem;
     justify-content: flex-start;
     background: #FBEFFA;
     box-shadow: none;
@@ -25,13 +25,14 @@ const NavContainer = styled.nav<{ theme: DefaultTheme }>`
 const Brand = styled.a`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
   text-decoration: none;
   color: #786A7F;
   margin-left: -0.5rem;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     margin-right: auto;
+    gap: 0.75rem;
 
     span {
       display: none;
@@ -40,8 +41,8 @@ const Brand = styled.a`
 `;
 
 const BrandImage = styled.img`
-  height: 40px;
-  width: 40px;
+  height: 55px;
+  width: 55px;
   border-radius: 50%;
   object-fit: cover;
   background: transparent;
@@ -51,12 +52,18 @@ const BrandImage = styled.img`
   display: block;
   box-shadow: 0 0 0 2px #FBEFFA;
   overflow: hidden;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    height: 45px;
+    width: 45px;
+  }
 `;
 
 const BrandText = styled.span`
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-family: ${({ theme }) => theme.fonts.secondary};
   letter-spacing: 0.02em;
+  font-weight: 600;
 `;
 
 const DesktopNav = styled.div`
