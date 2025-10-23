@@ -31,14 +31,17 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
-  body {
+  html, body {
     font-family: ${({ theme }) => theme.fonts.primary};
     background: #FBEFFA;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
     color: ${({ theme }) => theme.colors.primary};
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  #root {
+    min-height: 100vh;
   }
 
   body.loaded .splash {

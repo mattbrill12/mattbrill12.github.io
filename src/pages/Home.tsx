@@ -1,39 +1,43 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const MainContainer = styled.div`
-  flex: 1;
-  min-height: 100vh;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100vh;
 `;
 
 const BackgroundImage = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('${process.env.PUBLIC_URL}/mobile-charcuterie-cart-1.png');
+  background-image: url('${process.env.PUBLIC_URL}/main.png');
   background-size: cover;
-  background-position: center;
+  background-position: center 30%;
   background-repeat: no-repeat;
   z-index: 1;
 `;
 
 const Overlay = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(192, 170, 216, 0.3);
+  background: linear-gradient(
+    to bottom,
+    rgba(45, 26, 51, 0.4),
+    rgba(45, 26, 51, 0.6)
+  );
   z-index: 2;
 `;
 
-const MissionStatement = styled.div`
+const HeroContent = styled.div`
   position: relative;
   z-index: 3;
   text-align: center;
@@ -43,20 +47,20 @@ const MissionStatement = styled.div`
 
   h1 {
     font-family: ${({ theme }) => theme.fonts.secondary};
-    font-size: 2.5rem;
+    font-size: 4rem;
     color: white;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     font-weight: 600;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
   }
 
-  p {
-    font-size: 1.2rem;
-    line-height: 1.8;
+  h2 {
+    font-size: 1.8rem;
     color: white;
-    opacity: 1;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     margin-bottom: 2rem;
+    font-weight: 400;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    font-family: ${({ theme }) => theme.fonts.primary};
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
@@ -64,34 +68,38 @@ const MissionStatement = styled.div`
     padding: 1.5rem;
     
     h1 {
-      font-size: 2rem;
+      font-size: 3rem;
     }
     
-    p {
-      font-size: 1rem;
+    h2 {
+      font-size: 1.4rem;
     }
   }
 `;
 
-const OrderButton = styled.button`
-  background: rgba(255, 255, 255, 0.2);
+const CTAButton = styled(Link)`
+  display: inline-block;
+  background: transparent;
   color: white;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  padding: 1rem 2.5rem;
+  border: 2px solid white;
+  padding: 1.2rem 3rem;
   font-size: 1.2rem;
   font-weight: 600;
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  text-decoration: none;
   font-family: ${({ theme }) => theme.fonts.secondary};
-  backdrop-filter: blur(10px);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(5px);
 
   &:hover {
-    background: linear-gradient(135deg, #C0AAD8, #A68BC0);
-    border-color: #C0AAD8;
+    background: #2D1A33;
+    color: white;
+    border-color: #2D1A33;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(192, 170, 216, 0.6);
+    box-shadow: 0 6px 20px rgba(45, 26, 51, 0.4);
   }
 
   &:active {
@@ -99,36 +107,23 @@ const OrderButton = styled.button`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    padding: 0.8rem 2rem;
-    font-size: 1rem;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
   }
 `;
 
 export const Home: React.FC = () => {
-  const handleOrderNow = () => {
-    // Scroll to navigation or open contact modal
-    const navElement = document.querySelector('nav');
-    if (navElement) {
-      navElement.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <MainContainer>
       <BackgroundImage />
       <Overlay />
-      <MissionStatement>
-        <h1>Our Mission</h1>
-        <p>
-          At Très Petite LLC, we are dedicated to providing exceptional food and
-          beverage service that delights our customers. Our mission is to create
-          memorable experiences through quality ingredients and outstanding
-          hospitality.
-        </p>
-        <OrderButton onClick={handleOrderNow}>
-          Order Now
-        </OrderButton>
-      </MissionStatement>
+      <HeroContent>
+        <h1>Très Petite</h1>
+        <h2>Elevate your next event</h2>
+        <CTAButton to="/services">
+          Our Services
+        </CTAButton>
+      </HeroContent>
     </MainContainer>
   );
 };

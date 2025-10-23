@@ -6,6 +6,7 @@ export const theme = {
         secondary: 'rgb(217, 204, 221)',
         textDark: 'rgb(70, 56, 77)',
         textLight: '#fff',
+        background: 'rgb(251, 239, 250)', // Added background color
     },
     fonts: {
         primary: "'Poppins', sans-serif",

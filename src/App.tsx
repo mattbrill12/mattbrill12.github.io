@@ -4,11 +4,18 @@ import styled, { ThemeProvider } from 'styled-components';
 import { Navigation } from './components/Navigation/Navigation';
 import { Modal } from './components/Modal/Modal';
 import { PackageCard } from './components/PackageCard/PackageCard';
+import { Footer } from './components/Footer/Footer';
+import { ScrollToTop } from './components/ScrollToTop/ScrollToTop';
 import { GlobalStyles } from './styles/GlobalStyles';
 import { theme } from './styles/theme';
 import { Package } from './types';
 import { AboutUs } from './pages/AboutUs';
 import { Home } from './pages/Home';
+import Services from './pages/Services';
+import MobileCart from './pages/MobileCart';
+import MobileBar from './pages/MobileBar';
+import CuratedBites from './pages/CuratedBites';
+import Contact from './pages/Contact';
 import { PackageGrid } from './styles/shared';
 
 const beveragePackages: Package[] = [
@@ -168,6 +175,15 @@ const SplashLogo = styled.div`
 `;
 
 
+const AppWrapper = styled.div`
+  min-height: 100vh;
+  position: relative;
+`;
+
+const MainContent = styled.main`
+  position: relative;
+`;
+
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeModal, setActiveModal] = useState<string | null>(null);
@@ -184,58 +200,69 @@ function App() {
     <Router>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        {!isLoaded && (
-          <Splash>
-            <SplashLogo>
-              <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="Très Petite LLC" />
-            </SplashLogo>
-          </Splash>
-        )}
-        <Navigation setActiveModal={setActiveModal} />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<AboutUs />} />
-        </Routes>
+        <AppWrapper>
+          {!isLoaded && (
+            <Splash>
+              <SplashLogo>
+                <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="Très Petite LLC" />
+              </SplashLogo>
+            </Splash>
+          )}
+          <ScrollToTop />
+          <Navigation setActiveModal={setActiveModal} />
+          <MainContent>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<AboutUs />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/services/mobile-cart" element={<MobileCart />} />
+              <Route path="/services/mobile-bar" element={<MobileBar />} />
+              <Route path="/services/curated-bites" element={<CuratedBites />} />
+              <Route path="/contact" element={<Contact />} />
+            </Routes>
 
-        {/* Modals */}
-        <Modal
-          id="food"
-          title="Food"
-          isOpen={activeModal === 'food'}
-          onClose={() => setActiveModal(null)}
-        >
-          <PackageGrid>
-            {foodPackages.map((pkg, index) => (
-              <PackageCard key={index} package={pkg} />
-            ))}
-          </PackageGrid>
-        </Modal>
+            {/* Modals */}
+            <Modal
+              id="food"
+              title="Food"
+              isOpen={activeModal === 'food'}
+              onClose={() => setActiveModal(null)}
+            >
+              <PackageGrid>
+                {foodPackages.map((pkg, index) => (
+                  <PackageCard key={index} package={pkg} />
+                ))}
+              </PackageGrid>
+            </Modal>
 
-        <Modal
-          id="beverage"
-          title="Beverage"
-          isOpen={activeModal === 'beverage'}
-          onClose={() => setActiveModal(null)}
-        >
-          <PackageGrid>
-            {beveragePackages.map((pkg, index) => (
-              <PackageCard key={index} package={pkg} />
-            ))}
-          </PackageGrid>
-        </Modal>
+            <Modal
+              id="beverage"
+              title="Beverage"
+              isOpen={activeModal === 'beverage'}
+              onClose={() => setActiveModal(null)}
+            >
+              <PackageGrid>
+                {beveragePackages.map((pkg, index) => (
+                  <PackageCard key={index} package={pkg} />
+                ))}
+              </PackageGrid>
+            </Modal>
 
-        <Modal
-          id="seasonal"
-          title="Seasonal"
-          isOpen={activeModal === 'seasonal'}
-          onClose={() => setActiveModal(null)}
-        >
-          <PackageGrid>
-            {seasonalPackages.map((pkg, index) => (
-              <PackageCard key={index} package={pkg} />
-            ))}
-          </PackageGrid>
-        </Modal>
+            <Modal
+              id="seasonal"
+              title="Seasonal"
+              isOpen={activeModal === 'seasonal'}
+              onClose={() => setActiveModal(null)}
+            >
+              <PackageGrid>
+                {seasonalPackages.map((pkg, index) => (
+                  <PackageCard key={index} package={pkg} />
+                ))}
+              </PackageGrid>
+            </Modal>
+          </MainContent>
+          <Footer />
+        </AppWrapper>
       </ThemeProvider>
     </Router>
   );

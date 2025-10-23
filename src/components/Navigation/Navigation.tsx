@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled, { DefaultTheme } from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const NavContainer = styled.nav<{ theme: DefaultTheme }>`
   position: fixed;
@@ -17,17 +18,15 @@ const NavContainer = styled.nav<{ theme: DefaultTheme }>`
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding: 1rem 1rem;
     justify-content: flex-start;
-    background: #FBEFFA;
-    box-shadow: none;
   }
 `;
 
-const Brand = styled.a`
+const Brand = styled(Link)`
   display: flex;
   align-items: center;
   gap: 1rem;
   text-decoration: none;
-  color: #786A7F;
+  color: #2D1A33;
   margin-left: -0.5rem;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
@@ -103,20 +102,13 @@ const DropdownMenu = styled.div`
   z-index: 100;
 `;
 
-const Separator = styled.div<{ isMobile?: boolean }>`
-  height: 1px;
-  background: ${({ isMobile }) => isMobile ? 'rgba(255, 255, 255, 0.2)' : 'rgba(120, 106, 127, 0.2)'};
-  margin: ${({ isMobile }) => isMobile ? '1rem 0' : '0.5rem'};
-  width: ${({ isMobile }) => isMobile ? '100%' : 'auto'};
-`;
-
-const DropdownItem = styled.button<{ as?: string }>`
+const DropdownItem = styled(Link)`
   width: 100%;
   text-align: left;
   padding: 0.75rem 1rem;
   border: none;
   background: none;
-  color: #786A7F;
+  color: #2D1A33;
   font-size: 0.9rem;
   font-family: ${({ theme }) => theme.fonts.primary};
   cursor: pointer;
@@ -126,21 +118,16 @@ const DropdownItem = styled.button<{ as?: string }>`
   text-decoration: none;
 
   &:hover {
-    background: rgba(120, 106, 127, 0.1);
+    background: rgba(45, 26, 51, 0.1);
   }
 `;
 
-interface NavLinkProps {
-  isActive?: boolean;
-  $delay?: number;
-}
-
-const NavLink = styled.button`
-  color: #786A7F;
+const NavLink = styled(Link)`
+  color: #2D1A33;
   background: none;
   border: none;
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 500;
   font-family: ${({ theme }) => theme.fonts.primary};
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -156,18 +143,36 @@ const NavLink = styled.button`
   text-decoration: none;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    color: ${({ theme }) => theme.colors.textLight};
+    color: #2D1A33;
     width: 100%;
     font-size: 1.2rem;
   }
 
   &:hover {
     opacity: 1;
-    background: rgba(120, 106, 127, 0.1);
+    background: rgba(45, 26, 51, 0.1);
   }
 `;
 
-const MobileNavLink = styled(NavLink) <{ $isActive: boolean; $delay: number }>`
+const MobileNavLink = styled(NavLink) <{ $isActive: boolean; $delay: number; $isSubItem?: boolean }>`
+  ${({ $isSubItem }) => $isSubItem && `
+    font-size: 1rem;
+    opacity: 0.9;
+    padding-left: 1.5rem;
+    position: relative;
+    
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0.5rem;
+      top: 50%;
+      width: 4px;
+      height: 4px;
+      background: currentColor;
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+  `}
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     opacity: 0;
     transform: translateY(20px);
@@ -248,15 +253,16 @@ const MobileMenu = styled.div<{ isActive: boolean }>`
   right: ${({ isActive }) => (isActive ? '0' : '-100%')};
   width: 100%;
   height: 100vh;
-  background: ${({ theme }) => theme.colors.primary};
+  background: white;
   padding: 5rem 2rem 2rem;
   z-index: 15;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
   align-items: center;
-  color: ${({ theme }) => theme.colors.textLight};
+  color: #2D1A33;
   transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
 `;
 
 const CloseButton = styled.button<{ $isActive?: boolean }>`
@@ -265,7 +271,7 @@ const CloseButton = styled.button<{ $isActive?: boolean }>`
   right: 1rem;
   background: none;
   border: none;
-  color: white;
+  color: #2D1A33;
   font-size: 1.5rem;
   padding: 0.5rem;
   cursor: pointer;
@@ -313,15 +319,15 @@ export const Navigation: React.FC<NavigationProps> = ({ setActiveModal }) => {
 
   return (
     <NavContainer>
-      <Brand href="#">
+      <Brand to="/" replace>
         <BrandImage src={`${process.env.PUBLIC_URL}/logo.png`} alt="Très Petite LLC" />
         <BrandText>Très Petite LLC</BrandText>
       </Brand>
 
       <DesktopNav>
         <DropdownContainer>
-          <NavLink>
-            Menu
+          <NavLink to="/services">
+            Our Services
             <svg
               width="12"
               height="12"
@@ -335,21 +341,13 @@ export const Navigation: React.FC<NavigationProps> = ({ setActiveModal }) => {
             </svg>
           </NavLink>
           <DropdownMenu>
-            <DropdownItem onClick={() => setActiveModal('food')}>Food</DropdownItem>
-            <DropdownItem onClick={() => setActiveModal('beverage')}>Beverage</DropdownItem>
-            <DropdownItem onClick={() => setActiveModal('seasonal')}>Seasonal</DropdownItem>
-            <Separator />
-            <DropdownItem as="a" href="#/about">About Us</DropdownItem>
-            <DropdownItem
-              as="a"
-              href="https://www.instagram.com/trespetitellc"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Follow Us
-            </DropdownItem>
+            <DropdownItem to="/services/mobile-cart">Mobile Cart</DropdownItem>
+            <DropdownItem to="/services/mobile-bar">Mobile Bar</DropdownItem>
+            <DropdownItem to="/services/curated-bites">Curated Bites</DropdownItem>
           </DropdownMenu>
         </DropdownContainer>
+
+        <NavLink to="/about">About Us</NavLink>
       </DesktopNav>
 
       <MobileNav>
@@ -370,22 +368,11 @@ export const Navigation: React.FC<NavigationProps> = ({ setActiveModal }) => {
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </CloseButton>
-          <MobileNavLink onClick={() => { closeMenu(); setActiveModal('food'); }} $delay={0} $isActive={isMobileMenuOpen}>Food</MobileNavLink>
-          <MobileNavLink onClick={() => { closeMenu(); setActiveModal('beverage'); }} $delay={1} $isActive={isMobileMenuOpen}>Beverage</MobileNavLink>
-          <MobileNavLink onClick={() => { closeMenu(); setActiveModal('seasonal'); }} $delay={2} $isActive={isMobileMenuOpen}>Seasonal</MobileNavLink>
-          <Separator isMobile />
-          <MobileNavLink as="a" href="#/about" onClick={closeMenu} $delay={3} $isActive={isMobileMenuOpen}>About Us</MobileNavLink>
-          <MobileNavLink
-            as="a"
-            href="https://www.instagram.com/trespetitellc"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={closeMenu}
-            $delay={4}
-            $isActive={isMobileMenuOpen}
-          >
-            Follow Us
-          </MobileNavLink>
+          <MobileNavLink to="/services" onClick={closeMenu} $delay={0} $isActive={isMobileMenuOpen}>Our Services</MobileNavLink>
+          <MobileNavLink to="/services/mobile-cart" onClick={closeMenu} $delay={1} $isActive={isMobileMenuOpen} $isSubItem>Mobile Cart</MobileNavLink>
+          <MobileNavLink to="/services/mobile-bar" onClick={closeMenu} $delay={2} $isActive={isMobileMenuOpen} $isSubItem>Mobile Bar</MobileNavLink>
+          <MobileNavLink to="/services/curated-bites" onClick={closeMenu} $delay={3} $isActive={isMobileMenuOpen} $isSubItem>Curated Bites</MobileNavLink>
+          <MobileNavLink to="/about" onClick={closeMenu} $delay={4} $isActive={isMobileMenuOpen}>About Us</MobileNavLink>
         </MobileMenu>
       </MobileNav>
     </NavContainer>
