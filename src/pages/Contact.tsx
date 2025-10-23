@@ -166,7 +166,7 @@ const Contact = () => {
     setSubmitStatus({ type: null, message: '' });
 
     try {
-            const response = await fetch('https://script.google.com/macros/s/AKfycbxPjhiF_kXdNNiB_OLkAwFUg09uJXkm7VX-B6qJejXy90yF9GZDDuwUucvrlzmyHsBK/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbzC6i288xwbTvDb-MkovisBqUNOCkcuQNvZCrDVRjAv3eNuZEXXdSPstQJeCJPhR1s/exec', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
