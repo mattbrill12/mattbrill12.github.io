@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { services } from '../data/services';
 
 const PageContainer = styled.div`
   min-height: 100vh;
@@ -171,52 +172,8 @@ const CTASection = styled.div`
 `;
 
 const MobileCart = () => {
-  const packages = [
-    {
-      title: "Mini Graze",
-      subtitle: "Perfect for intimate celebrations, small parties, or showers",
-      features: [
-        "Classic charcuterie cart setup",
-        "2 cheese varieties",
-        "2 cured meats",
-        "Gourmet crackers",
-        "Fresh & dried fruits",
-        "Assorted olives and nuts",
-        "Honey & Jam",
-        "Up to 2 hours of service"
-      ]
-    },
-    {
-      title: "Graze and Gather",
-      subtitle: "Ideal for birthdays, engagements, or medium-sized gatherings",
-      features: [
-        "4 cheese varieties",
-        "3 meat selections",
-        "Fresh and dried fruits",
-        "Gourmet bread & crackers selections",
-        "Assorted Olives and nuts",
-        "Chocolate",
-        "Honey & Jams",
-        "Decorative greenery & custom signage",
-        "Up to 2 hours of service"
-      ]
-    },
-    {
-      title: "Luxe Graze",
-      subtitle: "Perfect for weddings, corporate events, and upscale parties",
-      features: [
-        "5 premium cheeses",
-        "4 meat selections",
-        "Gourmet crackers and breads",
-        "Fresh and dried fruit",
-        "Assorted olives and nuts",
-        "Specialty accompaniments: honeycomb, fig jam, tapenade, spreads",
-        "Personalized signage (event name or logo)",
-        "Upgrade decor (base on event theme/color)",
-        "Up to 4 hours of service"
-      ]
-    }
-  ];
+  const mobileCartService = services.find(service => service.id === 'mobile-cart');
+  const seasonalService = services.find(service => service.id === 'seasonal');
 
   return (
     <PageContainer>
@@ -228,7 +185,7 @@ const MobileCart = () => {
 
       <PackagesSection>
         <PackageGrid>
-          {packages.map((pkg, index) => (
+          {mobileCartService?.packages.map((pkg, index) => (
             <PackageCard key={index}>
               <PackageImage style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/mobile-charcuterie-cart-${index + 1}.png)` }} />
               <PackageContent>
@@ -247,55 +204,21 @@ const MobileCart = () => {
         <SectionTitle>Seasonal Features</SectionTitle>
 
         <PackageGrid>
-          {[
-            {
-              title: '"Cozy Cart" Package',
-              subtitle: 'Perfect for intimate gatherings or budget-friendly events',
-              features: [
-                'Classic hot chocolate (1 flavor)',
-                'Basic topping (mini marshmallows, whipped cream)',
-                'Simple cart setup',
-                'Up to 2 hours of service'
-              ]
-            },
-            {
-              title: '"Sweet Sips" Package',
-              subtitle: 'Great for birthdays, baby showers, and holiday parties',
-              features: [
-                'Everything in "Cozy Cart," plus:',
-                '2 flavor options (Classic + Peppermint or Salted Caramel)',
-                'Additional toppings (candy canes, chocolate chips, caramel drizzle)',
-                'Themed decor (seasonal or event-inspired)',
-                'Customized menu board'
-              ]
-            },
-            {
-              title: '"ChocoLuxe" Package',
-              subtitle: 'Perfect for weddings, large parties, or corporate events',
-              features: [
-                'Everything in "Sweet Sips," plus:',
-                'Up to 3 hot chocolate flavors (Classic, White Chocolate, Peppermint, Salted Caramel)',
-                'Gourmet toppings bar: crushed cookies, sprinkles, chocolate shavings',
-                'Upgraded decor',
-                'Personalized signage (logo or event name)',
-                'Event time up to 4 hours',
-                '2 attendants'
-              ]
-            }
-          ].map((pkg, index) => (
-            <PackageCard key={`seasonal-${index}`}>
-              <PackageImage style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/hot-chocolate-bar-${index + 1}.png)` }} />
-              <PackageContent>
-                <PackageTitle>{pkg.title}</PackageTitle>
-                <PackageSubtitle>{pkg.subtitle}</PackageSubtitle>
-                <FeatureList>
-                  {pkg.features.map((feature, i) => (
-                    <Feature key={i}>{feature}</Feature>
-                  ))}
-                </FeatureList>
-              </PackageContent>
-            </PackageCard>
-          ))}
+          {seasonalService?.packages
+            .map((pkg, index) => (
+              <PackageCard key={`seasonal-${index}`}>
+                <PackageImage style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/hot-chocolate-bar-${index + 1}.png)` }} />
+                <PackageContent>
+                  <PackageTitle>{pkg.title}</PackageTitle>
+                  <PackageSubtitle>{pkg.subtitle}</PackageSubtitle>
+                  <FeatureList>
+                    {pkg.features.map((feature, i) => (
+                      <Feature key={i}>{feature}</Feature>
+                    ))}
+                  </FeatureList>
+                </PackageContent>
+              </PackageCard>
+            ))}
         </PackageGrid>
 
         <CTASection>

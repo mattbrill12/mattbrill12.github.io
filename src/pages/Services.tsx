@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { services } from '../data/services';
 
 const PageContainer = styled.div`
   min-height: 100vh;
@@ -151,38 +152,15 @@ const Services = () => {
       </HeroSection>
 
       <ServicesGrid>
-        <ServiceCard to="/services/mobile-cart">
-          <ServiceImage image={`${process.env.PUBLIC_URL}/mobile-charcuterie-cart-1.png`} />
-          <ServiceContent>
-            <ServiceTitle>Mobile Cart</ServiceTitle>
-            <ServiceDescription>
-              Experience our signature charcuterie cart service, perfect for any event.
-              Choose from Mini Graze, Graze and Gather, or Luxe Graze packages.
-            </ServiceDescription>
-          </ServiceContent>
-        </ServiceCard>
-
-        <ServiceCard to="/services/mobile-bar">
-          <ServiceImage image={`${process.env.PUBLIC_URL}/beverage-bar-1.png`} />
-          <ServiceContent>
-            <ServiceTitle>Mobile Bar</ServiceTitle>
-            <ServiceDescription>
-              Elevate your event with our mobile bar service. From Graze-tini to
-              Perfect Pairing, and our upcoming Boba Bliss.
-            </ServiceDescription>
-          </ServiceContent>
-        </ServiceCard>
-
-        <ServiceCard to="/services/curated-bites">
-          <ServiceImage image={`${process.env.PUBLIC_URL}/hot-chocolate-bar-1.png`} />
-          <ServiceContent>
-            <ServiceTitle>Curated Bites</ServiceTitle>
-            <ServiceDescription>
-              Discover our selection of carefully curated bites with Cup-cuterie,
-              Grazette, and Petite Feast options.
-            </ServiceDescription>
-          </ServiceContent>
-        </ServiceCard>
+        {services.filter(service => service.id !== 'seasonal').map((service) => (
+          <ServiceCard key={service.id} to={`/services/${service.id}`}>
+            <ServiceImage image={`${process.env.PUBLIC_URL}${service.image}`} />
+            <ServiceContent>
+              <ServiceTitle>{service.name}</ServiceTitle>
+              <ServiceDescription>{service.description}</ServiceDescription>
+            </ServiceContent>
+          </ServiceCard>
+        ))}
       </ServicesGrid>
 
       <CTASection>

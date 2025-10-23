@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { services } from '../data/services';
 
 const PageContainer = styled.div`
   min-height: 100vh;
@@ -87,6 +88,28 @@ const TextArea = styled.textarea`
   }
 `;
 
+const Select = styled.select`
+  padding: 0.75rem 1rem;
+  border: 2px solid rgba(45, 26, 51, 0.1);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: ${({ theme }) => theme.fonts.primary};
+  transition: border-color 0.2s ease;
+  width: 100%;
+  background: white;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border-color: #2D1A33;
+  }
+
+  &:disabled {
+    background: #f5f5f5;
+    cursor: not-allowed;
+  }
+`;
+
 const StatusMessage = styled.div<{ type: 'success' | 'error' | null }>`
   padding: 1rem;
   margin-bottom: 1rem;
@@ -143,10 +166,12 @@ const Contact = () => {
     firstName: '',
     lastName: '',
     email: '',
-    message: ''
+    message: '',
+    serviceCategory: '',
+    servicePackage: ''
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -160,45 +185,72 @@ const Contact = () => {
     message: ''
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus({ type: null, message: '' });
 
     try {
-      const response = await fetch('https://script.google.com/macros/s/AKfycbzC6i288xwbTvDb-MkovisBqUNOCkcuQNvZCrDVRjAv3eNuZEXXdSPstQJeCJPhR1s/exec', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-        mode: 'cors'
+      const formElement = e.currentTarget;
+      const formData = new FormData();
+
+      // Log form values before sending
+      console.log('Form values:', {
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        email: formData.get('email'),
+        message: formData.get('message')
       });
 
-      const result = await response.json();
+      // Get service category name
+      const categoryName = services.find(cat => cat.id === formElement.serviceCategory.value)?.name || '';
 
-      if (result.success) {
-        setSubmitStatus({
-          type: 'success',
-          message: result.message
-        });
-        // Clear the form
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          message: ''
-        });
-      } else {
-        setSubmitStatus({
-          type: 'error',
-          message: result.message || 'Failed to send message. Please try again later.'
-        });
-      }
+      // Format the message with service details
+      const formattedMessage = `
+Service Category: ${categoryName}
+Package: ${formElement.servicePackage.value}
+
+Message:
+${formElement.message.value}`;
+
+      formData.append('firstName', formElement.firstName.value);
+      formData.append('lastName', formElement.lastName.value);
+      formData.append('email', formElement.email.value);
+      formData.append('message', formattedMessage);
+
+      // Log FormData after appending
+      console.log('FormData values:', {
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        email: formData.get('email'),
+        message: formData.get('message')
+      });
+
+      await fetch('https://script.google.com/macros/s/AKfycbxWaCN08IHk-1U0p-w-rB2wHcnepgEfu91Kd-B9NsEk_I4_HHmd-uYD97WXRsVg-14H/exec', {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors'
+      });
+
+      // Can't read response in no-cors mode, so just show success
+      setSubmitStatus({
+        type: 'success',
+        message: 'Thank you for your message! We will get back to you soon.'
+      });
+
+      // Clear the form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        message: '',
+        serviceCategory: '',
+        servicePackage: ''
+      });
     } catch (error) {
       setSubmitStatus({
         type: 'error',
-        message: 'An error occurred. Please try again later.'
+        message: 'Network error. Please try again.'
       });
     } finally {
       setIsSubmitting(false);
@@ -237,6 +289,50 @@ const Contact = () => {
                 onChange={handleChange}
                 required
               />
+            </InputGroup>
+          </FormGroup>
+
+          <FormGroup>
+            <InputGroup>
+              <Label htmlFor="serviceCategory">Service Category</Label>
+              <Select
+                id="serviceCategory"
+                name="serviceCategory"
+                value={formData.serviceCategory}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select a service category</option>
+                {services.map(category => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </Select>
+            </InputGroup>
+
+            <InputGroup>
+              <Label htmlFor="servicePackage">Package</Label>
+              <Select
+                id="servicePackage"
+                name="servicePackage"
+                value={formData.servicePackage}
+                onChange={handleChange}
+                required
+                disabled={!formData.serviceCategory}
+              >
+                <option value="">Select a package</option>
+                {formData.serviceCategory && services
+                  .find(cat => cat.id === formData.serviceCategory)
+                  ?.packages
+                  .filter(pkg => !pkg.isComingSoon)
+                  .map(pkg => (
+                    <option key={pkg.title} value={pkg.title}>
+                      {pkg.title}
+                    </option>
+                  ))
+                }
+              </Select>
             </InputGroup>
           </FormGroup>
 
