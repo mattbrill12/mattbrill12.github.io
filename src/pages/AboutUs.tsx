@@ -18,8 +18,8 @@ const HeroSection = styled.div`
   overflow: hidden;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    height: 300px;
-    margin-bottom: 3rem;
+    height: 200px;
+    margin-bottom: 2rem;
   }
 `;
 

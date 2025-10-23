@@ -19,8 +19,8 @@ const HeroSection = styled.div`
   overflow: hidden;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    height: 300px;
-    margin-bottom: 3rem;
+    height: 200px;
+    margin-bottom: 2rem;
   }
 `;
 
@@ -106,8 +106,13 @@ const ServiceDescription = styled.p`
 const CTASection = styled.div`
   text-align: center;
   margin-top: 4rem;
-  padding: 3rem 0;
+  padding: 3rem 1rem;
   background: ${({ theme }) => theme.colors.background};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    margin-top: 2rem;
+    padding: 2rem 1rem;
+  }
 `;
 
 const CTAButton = styled(Link)`
@@ -129,57 +134,62 @@ const CTAButton = styled(Link)`
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(45, 26, 51, 0.4);
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
 `;
 
 const Services = () => {
-    return (
-        <PageContainer>
-            <HeroSection>
-                <HeroOverlay>
-                    <HeroTitle>Our Services</HeroTitle>
-                </HeroOverlay>
-            </HeroSection>
+  return (
+    <PageContainer>
+      <HeroSection>
+        <HeroOverlay>
+          <HeroTitle>Our Services</HeroTitle>
+        </HeroOverlay>
+      </HeroSection>
 
-            <ServicesGrid>
-                <ServiceCard to="/services/mobile-cart">
-                    <ServiceImage image={`${process.env.PUBLIC_URL}/mobile-charcuterie-cart-1.png`} />
-                    <ServiceContent>
-                        <ServiceTitle>Mobile Cart</ServiceTitle>
-                        <ServiceDescription>
-                            Experience our signature charcuterie cart service, perfect for any event.
-                            Choose from Mini Graze, Graze and Gather, or Luxe Graze packages.
-                        </ServiceDescription>
-                    </ServiceContent>
-                </ServiceCard>
+      <ServicesGrid>
+        <ServiceCard to="/services/mobile-cart">
+          <ServiceImage image={`${process.env.PUBLIC_URL}/mobile-charcuterie-cart-1.png`} />
+          <ServiceContent>
+            <ServiceTitle>Mobile Cart</ServiceTitle>
+            <ServiceDescription>
+              Experience our signature charcuterie cart service, perfect for any event.
+              Choose from Mini Graze, Graze and Gather, or Luxe Graze packages.
+            </ServiceDescription>
+          </ServiceContent>
+        </ServiceCard>
 
-                <ServiceCard to="/services/mobile-bar">
-                    <ServiceImage image={`${process.env.PUBLIC_URL}/beverage-bar-1.png`} />
-                    <ServiceContent>
-                        <ServiceTitle>Mobile Bar</ServiceTitle>
-                        <ServiceDescription>
-                            Elevate your event with our mobile bar service. From Graze-tini to
-                            Perfect Pairing, and our upcoming Boba Bliss.
-                        </ServiceDescription>
-                    </ServiceContent>
-                </ServiceCard>
+        <ServiceCard to="/services/mobile-bar">
+          <ServiceImage image={`${process.env.PUBLIC_URL}/beverage-bar-1.png`} />
+          <ServiceContent>
+            <ServiceTitle>Mobile Bar</ServiceTitle>
+            <ServiceDescription>
+              Elevate your event with our mobile bar service. From Graze-tini to
+              Perfect Pairing, and our upcoming Boba Bliss.
+            </ServiceDescription>
+          </ServiceContent>
+        </ServiceCard>
 
-                <ServiceCard to="/services/curated-bites">
-                    <ServiceImage image={`${process.env.PUBLIC_URL}/hot-chocolate-bar-1.png`} />
-                    <ServiceContent>
-                        <ServiceTitle>Curated Bites</ServiceTitle>
-                        <ServiceDescription>
-                            Discover our selection of carefully curated bites with Cup-cuterie,
-                            Grazette, and Petite Feast options.
-                        </ServiceDescription>
-                    </ServiceContent>
-                </ServiceCard>
-            </ServicesGrid>
+        <ServiceCard to="/services/curated-bites">
+          <ServiceImage image={`${process.env.PUBLIC_URL}/hot-chocolate-bar-1.png`} />
+          <ServiceContent>
+            <ServiceTitle>Curated Bites</ServiceTitle>
+            <ServiceDescription>
+              Discover our selection of carefully curated bites with Cup-cuterie,
+              Grazette, and Petite Feast options.
+            </ServiceDescription>
+          </ServiceContent>
+        </ServiceCard>
+      </ServicesGrid>
 
-            <CTASection>
-                <CTAButton to="/contact">Contact to grab a quote</CTAButton>
-            </CTASection>
-        </PageContainer>
-    );
+      <CTASection>
+        <CTAButton to="/contact">Contact to grab a quote</CTAButton>
+      </CTASection>
+    </PageContainer>
+  );
 };
 
 export default Services;

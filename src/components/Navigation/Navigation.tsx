@@ -343,10 +343,10 @@ export const Navigation: React.FC<NavigationProps> = ({ setActiveModal }) => {
           <DropdownMenu>
             <DropdownItem to="/services/mobile-cart">Mobile Cart</DropdownItem>
             <DropdownItem to="/services/mobile-bar">Mobile Bar</DropdownItem>
-            <DropdownItem to="/services/curated-bites">Curated Bites</DropdownItem>
           </DropdownMenu>
         </DropdownContainer>
 
+        <NavLink to="/services/curated-bites">Curated Bites</NavLink>
         <NavLink to="/about">About Us</NavLink>
       </DesktopNav>
 
@@ -371,7 +371,7 @@ export const Navigation: React.FC<NavigationProps> = ({ setActiveModal }) => {
           <MobileNavLink to="/services" onClick={closeMenu} $delay={0} $isActive={isMobileMenuOpen}>Our Services</MobileNavLink>
           <MobileNavLink to="/services/mobile-cart" onClick={closeMenu} $delay={1} $isActive={isMobileMenuOpen} $isSubItem>Mobile Cart</MobileNavLink>
           <MobileNavLink to="/services/mobile-bar" onClick={closeMenu} $delay={2} $isActive={isMobileMenuOpen} $isSubItem>Mobile Bar</MobileNavLink>
-          <MobileNavLink to="/services/curated-bites" onClick={closeMenu} $delay={3} $isActive={isMobileMenuOpen} $isSubItem>Curated Bites</MobileNavLink>
+          <MobileNavLink to="/services/curated-bites" onClick={closeMenu} $delay={3} $isActive={isMobileMenuOpen}>Curated Bites</MobileNavLink>
           <MobileNavLink to="/about" onClick={closeMenu} $delay={4} $isActive={isMobileMenuOpen}>About Us</MobileNavLink>
         </MobileMenu>
       </MobileNav>

@@ -19,8 +19,8 @@ const HeroSection = styled.div`
   overflow: hidden;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    height: 300px;
-    margin-bottom: 3rem;
+    height: 200px;
+    margin-bottom: 2rem;
   }
 `;
 
@@ -65,12 +65,23 @@ const PackageGrid = styled.div`
   }
 `;
 
+const PackageImage = styled.div`
+  width: 100%;
+  height: 250px;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 1.5rem;
+`;
+
+const PackageContent = styled.div`
+  padding: 2rem;
+`;
+
 const PackageCard = styled.div`
   background: white;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
@@ -136,6 +147,12 @@ const CTAButton = styled(Link)`
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(45, 26, 51, 0.4);
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
 `;
 
 const CTASection = styled.div`
@@ -144,81 +161,84 @@ const CTASection = styled.div`
 `;
 
 const CuratedBites = () => {
-    const packages = [
-        {
-            title: "Cup-cuterie",
-            subtitle: "Individual portions perfect for any event",
-            features: [
-                "Individually portioned charcuterie cups",
-                "2 cheese varieties",
-                "2 cured meats",
-                "Fresh and dried fruits",
-                "Nuts and olives",
-                "Gourmet crackers",
-                "Honey drizzle",
-                "Eco-friendly packaging"
-            ]
-        },
-        {
-            title: "Grazette",
-            subtitle: "Small bites with big impact",
-            features: [
-                "Mini charcuterie boards",
-                "3 cheese varieties",
-                "3 cured meats",
-                "Fresh and dried fruits",
-                "Premium nuts and olives",
-                "Artisanal crackers",
-                "Honey and jam",
-                "Decorative garnish"
-            ]
-        },
-        {
-            title: "Petite Feast",
-            subtitle: "A curated selection of premium bites",
-            features: [
-                "Luxury individual portions",
-                "4 premium cheeses",
-                "4 specialty meats",
-                "Seasonal fresh fruits",
-                "Gourmet dried fruits",
-                "Premium nuts and olives",
-                "Artisanal crackers and bread",
-                "Specialty honey and preserves",
-                "Custom garnish and presentation"
-            ]
-        }
-    ];
+  const packages = [
+    {
+      title: "Cup-cuterie",
+      subtitle: "Individual portions perfect for any event",
+      features: [
+        "Individually portioned charcuterie cups",
+        "2 cheese varieties",
+        "2 cured meats",
+        "Fresh and dried fruits",
+        "Nuts and olives",
+        "Gourmet crackers",
+        "Honey drizzle",
+        "Eco-friendly packaging"
+      ]
+    },
+    {
+      title: "Grazette",
+      subtitle: "Small bites with big impact",
+      features: [
+        "Mini charcuterie boards",
+        "3 cheese varieties",
+        "3 cured meats",
+        "Fresh and dried fruits",
+        "Premium nuts and olives",
+        "Artisanal crackers",
+        "Honey and jam",
+        "Decorative garnish"
+      ]
+    },
+    {
+      title: "Petite Feast",
+      subtitle: "A curated selection of premium bites",
+      features: [
+        "Luxury individual portions",
+        "4 premium cheeses",
+        "4 specialty meats",
+        "Seasonal fresh fruits",
+        "Gourmet dried fruits",
+        "Premium nuts and olives",
+        "Artisanal crackers and bread",
+        "Specialty honey and preserves",
+        "Custom garnish and presentation"
+      ]
+    }
+  ];
 
-    return (
-        <PageContainer>
-            <HeroSection>
-                <HeroOverlay>
-                    <HeroTitle>Curated Bites</HeroTitle>
-                </HeroOverlay>
-            </HeroSection>
+  return (
+    <PageContainer>
+      <HeroSection>
+        <HeroOverlay>
+          <HeroTitle>Curated Bites</HeroTitle>
+        </HeroOverlay>
+      </HeroSection>
 
-            <PackagesSection>
-                <PackageGrid>
-                    {packages.map((pkg, index) => (
-                        <PackageCard key={index}>
-                            <PackageTitle>{pkg.title}</PackageTitle>
-                            <PackageSubtitle>{pkg.subtitle}</PackageSubtitle>
-                            <FeatureList>
-                                {pkg.features.map((feature, i) => (
-                                    <Feature key={i}>{feature}</Feature>
-                                ))}
-                            </FeatureList>
-                        </PackageCard>
-                    ))}
-                </PackageGrid>
+      <PackagesSection>
+        <PackageGrid>
+          {packages.map((pkg, index) => (
+            <PackageCard key={index}>
+              <PackageImage style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/hot-chocolate-bar-${index + 1}.png)` }} />
+              <PackageContent>
+                <PackageTitle>{pkg.title}</PackageTitle>
+                <PackageSubtitle>{pkg.subtitle}</PackageSubtitle>
+                <FeatureList>
+                  {pkg.features.map((feature, i) => (
+                    <Feature key={i}>{feature}</Feature>
+                  ))}
+                </FeatureList>
+              </PackageContent>
+            </PackageCard>
+          ))}
+        </PackageGrid>
 
-                <CTASection>
-                    <CTAButton to="/contact">Get a Quote</CTAButton>
-                </CTASection>
-            </PackagesSection>
-        </PageContainer>
-    );
+        <CTASection>
+          <CTAButton to="/contact">Contact to grab a quote</CTAButton>
+        </CTASection>
+      </PackagesSection>
+    </PageContainer>
+  );
 };
 
 export default CuratedBites;

@@ -19,8 +19,8 @@ const HeroSection = styled.div`
   overflow: hidden;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    height: 300px;
-    margin-bottom: 3rem;
+    height: 200px;
+    margin-bottom: 2rem;
   }
 `;
 
@@ -65,12 +65,23 @@ const PackageGrid = styled.div`
   }
 `;
 
+const PackageImage = styled.div`
+  width: 100%;
+  height: 250px;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 1.5rem;
+`;
+
+const PackageContent = styled.div`
+  padding: 2rem;
+`;
+
 const PackageCard = styled.div<{ isComingSoon?: boolean }>`
   background: white;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
@@ -164,6 +175,12 @@ const CTAButton = styled(Link)`
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(45, 26, 51, 0.4);
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
 `;
 
 const CTASection = styled.div`
@@ -172,73 +189,76 @@ const CTASection = styled.div`
 `;
 
 const MobileBar = () => {
-    const packages = [
-        {
-            title: "Graze-tini",
-            subtitle: "Perfect for intimate gatherings or budget-friendly events",
-            features: [
-                "1 Signature Custom Cocktail or Mocktail",
-                "Simple cart setup",
-                "Up to 2 hours of service"
-            ],
-            note: "*alcohol must be provided by the client"
-        },
-        {
-            title: "Perfect Pairing",
-            subtitle: "Great for birthdays, baby showers, and holiday parties",
-            features: [
-                "2 Signature Custom Cocktail or Mocktail",
-                "Simple cart setup",
-                "Up to 2 hours of service"
-            ],
-            note: "*alcohol must be provided by the client"
-        },
-        {
-            title: "Boba Bliss",
-            subtitle: "Perfect for any event!",
-            features: [
-                "Choice of 2 Boba flavor drinks",
-                "Personalized signage (logo or event name)",
-                "Simple cart setup",
-                "Up to 2 hours of service"
-            ],
-            isComingSoon: true
-        }
-    ];
+  const packages = [
+    {
+      title: "Graze-tini",
+      subtitle: "Perfect for intimate gatherings or budget-friendly events",
+      features: [
+        "1 Signature Custom Cocktail or Mocktail",
+        "Simple cart setup",
+        "Up to 2 hours of service"
+      ],
+      note: "*alcohol must be provided by the client"
+    },
+    {
+      title: "Perfect Pairing",
+      subtitle: "Great for birthdays, baby showers, and holiday parties",
+      features: [
+        "2 Signature Custom Cocktail or Mocktail",
+        "Simple cart setup",
+        "Up to 2 hours of service"
+      ],
+      note: "*alcohol must be provided by the client"
+    },
+    {
+      title: "Boba Bliss",
+      subtitle: "Perfect for any event!",
+      features: [
+        "Choice of 2 Boba flavor drinks",
+        "Personalized signage (logo or event name)",
+        "Simple cart setup",
+        "Up to 2 hours of service"
+      ],
+      isComingSoon: true
+    }
+  ];
 
-    return (
-        <PageContainer>
-            <HeroSection>
-                <HeroOverlay>
-                    <HeroTitle>Mobile Bar</HeroTitle>
-                </HeroOverlay>
-            </HeroSection>
+  return (
+    <PageContainer>
+      <HeroSection>
+        <HeroOverlay>
+          <HeroTitle>Mobile Bar</HeroTitle>
+        </HeroOverlay>
+      </HeroSection>
 
-            <PackagesSection>
-                <PackageGrid>
-                    {packages.map((pkg, index) => (
-                        <PackageCard key={index} isComingSoon={pkg.isComingSoon}>
-                            <PackageTitle>{pkg.title}</PackageTitle>
-                            <PackageSubtitle>{pkg.subtitle}</PackageSubtitle>
-                            <FeatureList>
-                                {pkg.features.map((feature, i) => (
-                                    <Feature key={i}>{feature}</Feature>
-                                ))}
-                            </FeatureList>
-                            {pkg.note && <Note>{pkg.note}</Note>}
-                            {pkg.isComingSoon && (
-                                <ComingSoonOverlay>Coming Soon</ComingSoonOverlay>
-                            )}
-                        </PackageCard>
-                    ))}
-                </PackageGrid>
+      <PackagesSection>
+        <PackageGrid>
+          {packages.map((pkg, index) => (
+            <PackageCard key={index} isComingSoon={pkg.isComingSoon}>
+              <PackageImage style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/beverage-bar-${index + 1}.png)` }} />
+              <PackageContent>
+                <PackageTitle>{pkg.title}</PackageTitle>
+                <PackageSubtitle>{pkg.subtitle}</PackageSubtitle>
+                <FeatureList>
+                  {pkg.features.map((feature, i) => (
+                    <Feature key={i}>{feature}</Feature>
+                  ))}
+                </FeatureList>
+                {pkg.note && <Note>{pkg.note}</Note>}
+              </PackageContent>
+              {pkg.isComingSoon && (
+                <ComingSoonOverlay>Coming Soon</ComingSoonOverlay>
+              )}
+            </PackageCard>
+          ))}
+        </PackageGrid>
 
-                <CTASection>
-                    <CTAButton to="/contact">Get a Quote</CTAButton>
-                </CTASection>
-            </PackagesSection>
-        </PageContainer>
-    );
+        <CTASection>
+          <CTAButton to="/contact">Contact to grab a quote</CTAButton>
+        </CTASection>
+      </PackagesSection>
+    </PageContainer>
+  );
 };
 
 export default MobileBar;
