@@ -87,7 +87,25 @@ const TextArea = styled.textarea`
   }
 `;
 
-const SubmitButton = styled.button`
+const StatusMessage = styled.div<{ type: 'success' | 'error' | null }>`
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+
+  ${({ type }) => type === 'success' && `
+    background-color: rgba(0, 128, 0, 0.1);
+    color: green;
+  `}
+
+  ${({ type }) => type === 'error' && `
+    background-color: rgba(255, 0, 0, 0.1);
+    color: red;
+  `}
+`;
+
+const SubmitButton = styled.button<{ isSubmitting?: boolean }>`
   background: #2D1A33;
   color: white;
   border: none;
@@ -111,97 +129,147 @@ const SubmitButton = styled.button`
   &:active {
     transform: translateY(0);
   }
+
+  ${({ isSubmitting }) => isSubmitting && `
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    pointer-events: none;
+  `}
 `;
 
 const Contact = () => {
-    const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        message: ''
-    });
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    message: ''
+  });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-    };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        // For now, just log the form data
-        console.log('Form submitted:', formData);
-        // Here you would typically send the data to a server
-        alert('Thank you for your message! We will get back to you soon.');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({
+    type: null,
+    message: ''
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: '' });
+
+    try {
+            const response = await fetch('https://script.google.com/macros/s/AKfycbxPjhiF_kXdNNiB_OLkAwFUg09uJXkm7VX-B6qJejXy90yF9GZDDuwUucvrlzmyHsBK/exec', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+        mode: 'cors'
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitStatus({
+          type: 'success',
+          message: result.message
+        });
         // Clear the form
         setFormData({
-            firstName: '',
-            lastName: '',
-            email: '',
-            message: ''
+          firstName: '',
+          lastName: '',
+          email: '',
+          message: ''
         });
-    };
+      } else {
+        setSubmitStatus({
+          type: 'error',
+          message: result.message || 'Failed to send message. Please try again later.'
+        });
+      }
+    } catch (error) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'An error occurred. Please try again later.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
-    return (
-        <PageContainer>
-            <ContentContainer>
-                <Title>Contact Us</Title>
-                <Form onSubmit={handleSubmit}>
-                    <FormGroup>
-                        <InputGroup>
-                            <Label htmlFor="firstName">First Name</Label>
-                            <Input
-                                type="text"
-                                id="firstName"
-                                name="firstName"
-                                value={formData.firstName}
-                                onChange={handleChange}
-                                required
-                            />
-                        </InputGroup>
-                        <InputGroup>
-                            <Label htmlFor="lastName">Last Name</Label>
-                            <Input
-                                type="text"
-                                id="lastName"
-                                name="lastName"
-                                value={formData.lastName}
-                                onChange={handleChange}
-                                required
-                            />
-                        </InputGroup>
-                    </FormGroup>
+  return (
+    <PageContainer>
+      <ContentContainer>
+        <Title>Contact Us</Title>
+        {submitStatus.type && (
+          <StatusMessage type={submitStatus.type}>
+            {submitStatus.message}
+          </StatusMessage>
+        )}
+        <Form onSubmit={handleSubmit}>
+          <FormGroup>
+            <InputGroup>
+              <Label htmlFor="firstName">First Name</Label>
+              <Input
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                required
+              />
+            </InputGroup>
+            <InputGroup>
+              <Label htmlFor="lastName">Last Name</Label>
+              <Input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                required
+              />
+            </InputGroup>
+          </FormGroup>
 
-                    <InputGroup>
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                        />
-                    </InputGroup>
+          <InputGroup>
+            <Label htmlFor="email">Email</Label>
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </InputGroup>
 
-                    <InputGroup>
-                        <Label htmlFor="message">Message</Label>
-                        <TextArea
-                            id="message"
-                            name="message"
-                            value={formData.message}
-                            onChange={handleChange}
-                            required
-                        />
-                    </InputGroup>
+          <InputGroup>
+            <Label htmlFor="message">Message</Label>
+            <TextArea
+              id="message"
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              required
+            />
+          </InputGroup>
 
-                    <SubmitButton type="submit">Send Message</SubmitButton>
-                </Form>
-            </ContentContainer>
-        </PageContainer>
-    );
+          <SubmitButton type="submit" isSubmitting={isSubmitting} disabled={isSubmitting}>
+            {isSubmitting ? 'Sending...' : 'Send Message'}
+          </SubmitButton>
+        </Form>
+      </ContentContainer>
+    </PageContainer>
+  );
 };
 
 export default Contact;
