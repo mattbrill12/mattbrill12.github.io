@@ -158,13 +158,13 @@ const MobileNavLink = styled(NavLink) <{ $isActive: boolean; $delay: number; $is
   ${({ $isSubItem }) => $isSubItem && `
     font-size: 1rem;
     opacity: 0.9;
-    padding-left: 1.5rem;
+    padding-left: 2.5rem;
     position: relative;
     
     &:before {
       content: '';
       position: absolute;
-      left: 0.5rem;
+      left: 1.5rem;
       top: 50%;
       width: 4px;
       height: 4px;
@@ -348,6 +348,7 @@ export const Navigation: React.FC<NavigationProps> = ({ setActiveModal }) => {
 
         <NavLink to="/services/curated-bites">Curated Bites</NavLink>
         <NavLink to="/about">About Us</NavLink>
+        <NavLink to="/contact">Contact Us</NavLink>
       </DesktopNav>
 
       <MobileNav>
@@ -373,6 +374,7 @@ export const Navigation: React.FC<NavigationProps> = ({ setActiveModal }) => {
           <MobileNavLink to="/services/mobile-bar" onClick={closeMenu} $delay={2} $isActive={isMobileMenuOpen} $isSubItem>Mobile Bar</MobileNavLink>
           <MobileNavLink to="/services/curated-bites" onClick={closeMenu} $delay={3} $isActive={isMobileMenuOpen}>Curated Bites</MobileNavLink>
           <MobileNavLink to="/about" onClick={closeMenu} $delay={4} $isActive={isMobileMenuOpen}>About Us</MobileNavLink>
+          <MobileNavLink to="/contact" onClick={closeMenu} $delay={5} $isActive={isMobileMenuOpen}>Contact Us</MobileNavLink>
         </MobileMenu>
       </MobileNav>
     </NavContainer>

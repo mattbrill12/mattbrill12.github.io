@@ -16,26 +16,14 @@ const BackgroundImage = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('${process.env.PUBLIC_URL}/main.png');
+  background-image: url('${process.env.PUBLIC_URL}/mobile-charcuterie-cart-1.png');
   background-size: cover;
   background-position: center 30%;
   background-repeat: no-repeat;
   z-index: 1;
 `;
 
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(45, 26, 51, 0.4),
-    rgba(45, 26, 51, 0.6)
-  );
-  z-index: 2;
-`;
+
 
 const HeroContent = styled.div`
   position: relative;
@@ -46,7 +34,7 @@ const HeroContent = styled.div`
   padding: 2rem;
 
   h1 {
-    font-family: ${({ theme }) => theme.fonts.secondary};
+    font-family: 'Muocas Display Serif', serif;
     font-size: 4rem;
     color: white;
     margin-bottom: 1rem;
@@ -116,10 +104,9 @@ export const Home: React.FC = () => {
   return (
     <MainContainer>
       <BackgroundImage />
-      <Overlay />
       <HeroContent>
         <h1>Très Petite</h1>
-        <h2>Elevate your next event</h2>
+        <h2>Where gatherings become unforgettable - book us for your next event!</h2>
         <CTAButton to="/services">
           Our Services
         </CTAButton>
