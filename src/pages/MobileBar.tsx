@@ -106,7 +106,7 @@ const ComingSoonOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(251, 239, 250, 0.95);
+  background: rgba(251, 239, 250, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,6 +115,7 @@ const ComingSoonOverlay = styled.div`
   color: #2D1A33;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  backdrop-filter: blur(2px);
 `;
 
 const PackageTitle = styled.h3`

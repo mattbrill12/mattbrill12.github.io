@@ -6,6 +6,10 @@ on:
       - main
   workflow_dispatch:
 
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -13,6 +17,7 @@ jobs:
     
     permissions:
       contents: write
+      actions: write
     
     steps:
       - name: Checkout repository
