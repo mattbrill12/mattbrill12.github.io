@@ -116,6 +116,14 @@ const ComingSoonOverlay = styled.div`
   text-transform: uppercase;
   letter-spacing: 0.1em;
   backdrop-filter: blur(2px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(251, 239, 250, 0.3);
+    backdrop-filter: blur(0.5px);
+    opacity: 0;
+  }
 `;
 
 const PackageTitle = styled.h3`
