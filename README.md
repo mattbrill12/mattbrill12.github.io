@@ -33,8 +33,8 @@ Your app is ready to be deployed!
 
 The project includes automated CI/CD using GitHub Actions. **Simply push your code changes to the `main` branch** and the workflow will automatically:
 1. Build the project
-2. Copy build files to root directory
-3. Commit and push the build files back to main
+2. Deploy build files to the `gh-pages` branch
+3. GitHub Pages serves from the `gh-pages` branch
 
 **Workflow:**
 ```bash
@@ -45,8 +45,8 @@ git push origin main
 
 # 2. GitHub Actions automatically handles:
 #    - Building the project
-#    - Copying build files to root
-#    - Committing and pushing build files
+#    - Deploying build files to gh-pages branch
+#    - Your main branch stays clean (no deployment commits!)
 ```
 
 **Manual Deployment (Local):**
@@ -77,7 +77,11 @@ npm run commit-deploy
 
 The site will be automatically updated at your GitHub Pages URL.
 
-**Note:** The GitHub Actions workflow automatically deploys on every push to `main` (except deployment commits marked with `[skip ci]`). For local manual deployments, use `npm run deploy:root`.
+**Note:** 
+- The GitHub Actions workflow automatically deploys to the `gh-pages` branch on every push to `main`
+- Your `main` branch stays clean - no deployment commits!
+- Make sure GitHub Pages is configured to serve from the `gh-pages` branch (Settings → Pages → Source: Deploy from a branch → Branch: `gh-pages` → Folder: `/ (root)`)
+- For local manual deployments, use `npm run deploy:root` (this still deploys to root, but you can update it to use gh-pages if preferred)
 
 ## Learn More
 
