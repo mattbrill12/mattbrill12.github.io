@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ const PageContainer = styled.div`
 
 const HeroSection = styled.div`
   width: 100%;
-  height: 400px;
+  height: 300px;
   background-image: url('${process.env.PUBLIC_URL}/hot-chocolate-bar-2.png');
   background-size: cover;
   background-position: center;
@@ -19,39 +19,44 @@ const HeroSection = styled.div`
   overflow: hidden;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    height: 200px;
+    height: 150px;
     margin-bottom: 2rem;
   }
 `;
 
-const HeroOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(45, 26, 51, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+const PackagesSection = styled.div`
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1rem;
 
-const HeroTitle = styled.h1`
-  color: white;
-  font-size: 3rem;
-  font-family: ${({ theme }) => theme.fonts.secondary};
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  text-align: center;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    font-size: 2.5rem;
+  @media (min-width: 1400px) {
+    max-width: 1100px;
   }
 `;
 
-const PackagesSection = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
+const SectionTitle = styled.h2`
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  font-family: ${({ theme }) => theme.fonts.secondary};
+  color: #2D1A33;
+`;
+
+const Description = styled.p`
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #444;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 4rem;
+  font-family: ${({ theme }) => theme.fonts.primary};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: 1rem;
+    margin-bottom: 3rem;
+    padding: 0 1rem;
+  }
 `;
 
 const PackageGrid = styled.div`
@@ -207,15 +212,20 @@ const CuratedBites = () => {
     }
   ];
 
+  useEffect(() => {
+    document.title = 'Très Petite LLC | Curated Bites';
+  }, []);
+
   return (
     <PageContainer>
-      <HeroSection>
-        <HeroOverlay>
-          <HeroTitle>Curated Bites</HeroTitle>
-        </HeroOverlay>
-      </HeroSection>
+      <HeroSection />
 
       <PackagesSection>
+        <SectionTitle>Curated Bites</SectionTitle>
+        <Description>
+          Our Curated Cup-cuterie, Grazettes, and Petite Feast brings the art of grazing to a personal level — thoughtfully designed for individual enjoyment without sacrificing elegance or flavor. Each serving is beautifully styled and filled with a handpicked selection of premium ingredients, creating a perfectly portioned gourmet experience that's as stunning as it is delicious.
+        </Description>
+
         <PackageGrid>
           {packages.map((pkg, index) => (
             <PackageCard key={index}>

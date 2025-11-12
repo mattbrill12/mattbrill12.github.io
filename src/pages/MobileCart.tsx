@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { services } from '../data/services';
@@ -11,7 +11,7 @@ const PageContainer = styled.div`
 
 const HeroSection = styled.div`
   width: 100%;
-  height: 400px;
+  height: 300px;
   background-image: url('${process.env.PUBLIC_URL}/mobile-charcuterie-cart-3.png');
   background-size: cover;
   background-position: center;
@@ -20,7 +20,7 @@ const HeroSection = styled.div`
   overflow: hidden;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    height: 200px;
+    height: 150px;
     margin-bottom: 2rem;
   }
 `;
@@ -50,9 +50,29 @@ const HeroTitle = styled.h1`
 `;
 
 const PackagesSection = styled.div`
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 0 1rem;
+
+  @media (min-width: 1400px) {
+    max-width: 1100px;
+  }
+`;
+
+const Description = styled.p`
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #444;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 4rem;
+  font-family: ${({ theme }) => theme.fonts.primary};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: 1rem;
+    margin-bottom: 3rem;
+    padding: 0 1rem;
+  }
 `;
 
 const SectionTitle = styled.h2`
@@ -172,18 +192,23 @@ const CTASection = styled.div`
 `;
 
 const MobileCart = () => {
+  useEffect(() => {
+    document.title = 'Très Petite LLC | Mobile Cart';
+  }, []);
+
   const mobileCartService = services.find(service => service.id === 'mobile-cart');
   const seasonalService = services.find(service => service.id === 'seasonal');
 
   return (
     <PageContainer>
-      <HeroSection>
-        <HeroOverlay>
-          <HeroTitle>Mobile Cart</HeroTitle>
-        </HeroOverlay>
-      </HeroSection>
+      <HeroSection />
 
       <PackagesSection>
+        <SectionTitle style={{ marginTop: 0 }}>Mobile Cart</SectionTitle>
+        <Description>
+          Our curated mobile cart is designed to bring a touch of elegance and personalization to any special event. Fully tailored to your needs and vision, it offers endless possibilities for customization — ensuring every detail reflects your unique style. It features up to 12 delectable selections of premium fruits, artisanal cheeses, fine meats, and more. Whether you're hosting an intimate gathering or a grand celebration, our mobile cart experience transforms your occasion into something truly unforgettable.
+        </Description>
+
         <PackageGrid>
           {mobileCartService?.packages.map((pkg, index) => (
             <PackageCard key={index}>
@@ -202,6 +227,10 @@ const MobileCart = () => {
         </PackageGrid>
 
         <SectionTitle>Seasonal Features</SectionTitle>
+
+        <Description>
+          Celebrate the magic of the seasons with our curated Seasonal Mobile Cart — a warm, inviting addition to any event that captures the essence of each time of year. Thoughtfully designed and fully customizable, each cart brings a festive touch that enhances your gathering with both beauty and charm.
+        </Description>
 
         <PackageGrid>
           {seasonalService?.packages

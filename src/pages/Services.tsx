@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { services } from '../data/services';
@@ -11,7 +11,7 @@ const PageContainer = styled.div`
 
 const HeroSection = styled.div`
   width: 100%;
-  height: 400px;
+  height: 300px;
   background-image: url('${process.env.PUBLIC_URL}/mobile-charcuterie-cart-2.png');
   background-size: cover;
   background-position: center;
@@ -20,7 +20,7 @@ const HeroSection = styled.div`
   overflow: hidden;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    height: 200px;
+    height: 150px;
     margin-bottom: 2rem;
   }
 `;
@@ -53,9 +53,13 @@ const ServicesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 0 1rem;
+
+  @media (min-width: 1400px) {
+    max-width: 1100px;
+  }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
@@ -107,13 +111,6 @@ const ServiceDescription = styled.p`
 const CTASection = styled.div`
   text-align: center;
   margin-top: 4rem;
-  padding: 3rem 1rem;
-  background: ${({ theme }) => theme.colors.background};
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    margin-top: 2rem;
-    padding: 2rem 1rem;
-  }
 `;
 
 const CTAButton = styled(Link)`
@@ -143,6 +140,10 @@ const CTAButton = styled(Link)`
 `;
 
 const Services = () => {
+  useEffect(() => {
+    document.title = 'Très Petite LLC | Our Services';
+  }, []);
+
   return (
     <PageContainer>
       <HeroSection>

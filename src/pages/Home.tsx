@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -30,8 +30,12 @@ const HeroContent = styled.div`
   z-index: 3;
   text-align: center;
   width: 100%;
-  max-width: 800px;
+  max-width: 700px;
   padding: 2rem;
+
+  @media (min-width: 1400px) {
+    max-width: 800px;
+  }
 
   h1 {
     font-family: 'Muocas Display Serif', serif;
@@ -101,6 +105,10 @@ const CTAButton = styled(Link)`
 `;
 
 export const Home: React.FC = () => {
+  useEffect(() => {
+    document.title = 'Très Petite LLC';
+  }, []);
+
   return (
     <MainContainer>
       <BackgroundImage />

@@ -29,28 +29,55 @@ Your app is ready to be deployed!
 
 ## Deployment to GitHub Pages
 
-Follow these steps to deploy updates to GitHub Pages:
+### Automated Deployment (Recommended)
 
-1. Build the project:
-```bash
-npm run build
-```
+The project includes automated CI/CD using GitHub Actions. **Simply push your code changes to the `main` branch** and the workflow will automatically:
+1. Build the project
+2. Copy build files to root directory
+3. Commit and push the build files back to main
 
-2. Copy build files to root directory:
+**Workflow:**
 ```bash
-cp -r build/* .
-```
-
-3. Commit the changes:
-```bash
+# 1. Make your code changes
 git add .
-git commit -m "Deploy: [description of changes]"
+git commit -m "Your commit message"
 git push origin main
+
+# 2. GitHub Actions automatically handles:
+#    - Building the project
+#    - Copying build files to root
+#    - Committing and pushing build files
+```
+
+**Manual Deployment (Local):**
+
+If you prefer to deploy manually from your local machine:
+
+```bash
+npm run deploy:root
+```
+
+This single command will:
+1. Build the project (`npm run build`)
+2. Copy build files to root directory (`npm run copy-build`)
+3. Commit and push changes (`npm run commit-deploy`)
+
+**Individual Steps (if needed):**
+
+```bash
+# Build the project
+npm run build
+
+# Copy build files to root
+npm run copy-build
+
+# Commit and push (optional, if you want to review changes first)
+npm run commit-deploy
 ```
 
 The site will be automatically updated at your GitHub Pages URL.
 
-**Note:** Always make sure to copy the build files to the root directory after building. This is required for GitHub Pages to serve the latest version of your site.
+**Note:** The GitHub Actions workflow automatically deploys on every push to `main` (except deployment commits marked with `[skip ci]`). For local manual deployments, use `npm run deploy:root`.
 
 ## Learn More
 

@@ -10,7 +10,7 @@ const NavContainer = styled.nav<{ theme: DefaultTheme }>`
   padding: 1.5rem 2rem;
   z-index: 50;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -18,6 +18,22 @@ const NavContainer = styled.nav<{ theme: DefaultTheme }>`
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding: 1rem 1rem;
     justify-content: flex-start;
+  }
+`;
+
+const NavInner = styled.div`
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (min-width: 1400px) {
+    max-width: 1100px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    max-width: 100%;
   }
 `;
 
@@ -319,12 +335,13 @@ export const Navigation: React.FC<NavigationProps> = ({ setActiveModal }) => {
 
   return (
     <NavContainer>
-      <Brand to="/" replace>
-        <BrandImage src={`${process.env.PUBLIC_URL}/logo.png`} alt="Très Petite LLC" />
-        <BrandText>Très Petite LLC</BrandText>
-      </Brand>
+      <NavInner>
+        <Brand to="/" replace>
+          <BrandImage src={`${process.env.PUBLIC_URL}/logo.png`} alt="Très Petite LLC" />
+          <BrandText>Très Petite LLC</BrandText>
+        </Brand>
 
-      <DesktopNav>
+        <DesktopNav>
         <DropdownContainer>
           <NavLink to="/services">
             Our Services
@@ -349,9 +366,9 @@ export const Navigation: React.FC<NavigationProps> = ({ setActiveModal }) => {
         <NavLink to="/services/curated-bites">Curated Bites</NavLink>
         <NavLink to="/about">About Us</NavLink>
         <NavLink to="/contact">Contact Us</NavLink>
-      </DesktopNav>
+        </DesktopNav>
 
-      <MobileNav>
+        <MobileNav>
         <Hamburger
           onClick={toggleMenu}
           isActive={isMobileMenuOpen}
@@ -376,7 +393,8 @@ export const Navigation: React.FC<NavigationProps> = ({ setActiveModal }) => {
           <MobileNavLink to="/about" onClick={closeMenu} $delay={4} $isActive={isMobileMenuOpen}>About Us</MobileNavLink>
           <MobileNavLink to="/contact" onClick={closeMenu} $delay={5} $isActive={isMobileMenuOpen}>Contact Us</MobileNavLink>
         </MobileMenu>
-      </MobileNav>
+        </MobileNav>
+      </NavInner>
     </NavContainer>
   );
 };

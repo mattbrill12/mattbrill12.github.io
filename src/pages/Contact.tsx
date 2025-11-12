@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { services } from '../data/services';
 
@@ -9,12 +9,16 @@ const PageContainer = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  max-width: 800px;
+  max-width: 700px;
   margin: 4rem auto;
   padding: 3rem;
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  @media (min-width: 1400px) {
+    max-width: 800px;
+  }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     margin: 2rem auto;
@@ -162,6 +166,10 @@ const SubmitButton = styled.button<{ isSubmitting?: boolean }>`
 `;
 
 const Contact = () => {
+  useEffect(() => {
+    document.title = 'Très Petite LLC | Contact Us';
+  }, []);
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 const PageContainer = styled.div`
@@ -9,7 +9,7 @@ const PageContainer = styled.div`
 
 const HeroSection = styled.div`
   width: 100%;
-  height: 400px;
+  height: 300px;
   background-image: url('${process.env.PUBLIC_URL}/mobile-charcuterie-cart-1.png');
   background-size: cover;
   background-position: center;
@@ -18,7 +18,7 @@ const HeroSection = styled.div`
   overflow: hidden;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    height: 200px;
+    height: 150px;
     margin-bottom: 2rem;
   }
 `;
@@ -48,15 +48,23 @@ const HeroTitle = styled.h1`
 `;
 
 const ContentContainer = styled.div`
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 0 2rem;
+
+  @media (min-width: 1400px) {
+    max-width: 1100px;
+  }
 `;
 
 const MissionSection = styled.div`
-  max-width: 800px;
+  max-width: 700px;
   margin: 0 auto 4rem;
   text-align: center;
+
+  @media (min-width: 1400px) {
+    max-width: 800px;
+  }
 
   h2 {
     font-family: ${({ theme }) => theme.fonts.secondary};
@@ -113,6 +121,10 @@ const ContactInfo = styled.div`
 `;
 
 export const AboutUs: React.FC = () => {
+  useEffect(() => {
+    document.title = 'Très Petite LLC | About Us';
+  }, []);
+
   return (
     <PageContainer>
       <HeroSection>
