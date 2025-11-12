@@ -159,7 +159,7 @@ export const AboutUs: React.FC = () => {
         <ContactSection>
           <ContactInfo>
             <h2>Get in Touch</h2>
-            <p>130 W. Pleasant Ave Suite 268</p>
+            <p>130 W. Pleasant Ave. Suite 268</p>
             <p>NJ 07607</p>
             <p>
               <a href="mailto:trespetitellc@gmail.com">trespetitellc@gmail.com</a>
