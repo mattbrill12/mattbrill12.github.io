@@ -25,30 +25,6 @@ const HeroSection = styled.div`
   }
 `;
 
-const HeroOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(45, 26, 51, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const HeroTitle = styled.h1`
-  color: white;
-  font-size: 3rem;
-  font-family: ${({ theme }) => theme.fonts.secondary};
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  text-align: center;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    font-size: 2.5rem;
-  }
-`;
-
 const PackagesSection = styled.div`
   max-width: 1000px;
   margin: 0 auto;
